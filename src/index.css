@@ -5,6 +5,13 @@
   color-scheme: dark;
 }
 
+html,
+body,
+#root {
+  min-height: 100%;
+  background-color: #020617;
+}
+
 * {
   box-sizing: border-box;
 }

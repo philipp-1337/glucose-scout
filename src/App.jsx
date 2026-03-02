@@ -223,7 +223,7 @@ export default function App() {
   const latestRows = entries.slice(-8).reverse()
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top,_#1e293b_0%,_#020617_45%,_#020617_100%)] px-4 py-8 text-slate-100 sm:px-6 lg:px-8">
+    <main className="min-h-dvh bg-[radial-gradient(circle_at_top,_#1e293b_0%,_#020617_45%,_#020617_100%)] px-4 pb-8 pt-[calc(env(safe-area-inset-top)+2rem)] text-slate-100 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-5xl space-y-6">
         <header className="rounded-2xl border border-white/20 bg-slate-950/55 p-6 shadow-glass backdrop-blur">
           <div className="flex items-center gap-4">
