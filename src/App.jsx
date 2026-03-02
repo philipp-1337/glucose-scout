@@ -272,95 +272,6 @@ export default function App() {
           </section>
         ) : null}
 
-        {hasFirebaseConfig && user ? (
-          <>
-            <section className="rounded-2xl border border-white/15 bg-slate-900/65 p-5 shadow-glass">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <p className="text-sm text-slate-200">
-                  Eingeloggt als <span className="font-semibold">{user.email}</span>
-                </p>
-                <button
-                  type="button"
-                  onClick={handleSignOut}
-                  className="rounded-xl border border-white/20 px-3 py-1.5 text-sm text-slate-200 transition hover:bg-white/10"
-                >
-                  Abmelden
-                </button>
-              </div>
-            </section>
-
-            <section className="rounded-2xl border border-white/15 bg-slate-900/65 p-6 shadow-glass">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <h2 className="text-lg font-semibold">Nightscout Einstellungen</h2>
-                  <p className="mt-1 text-sm text-slate-300">
-                    Gespeichert unter `users/{'{uid}'}/settings/nightscout` in Firestore.
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setSettingsExpanded((prev) => !prev)}
-                  className="rounded-xl border border-white/20 px-3 py-1.5 text-sm text-slate-200 transition hover:bg-white/10"
-                >
-                  {settingsExpanded ? 'Ausblenden' : 'Anzeigen'}
-                </button>
-              </div>
-
-              {settingsLoading ? <p className="mt-3 text-sm text-slate-300">Einstellungen werden geladen...</p> : null}
-
-              {!settingsExpanded && hasNightscoutConfig ? (
-                <p className="mt-3 text-sm text-slate-300">Nightscout-Zugang ist gespeichert.</p>
-              ) : null}
-
-              {settingsExpanded ? (
-                <form className="mt-4 space-y-3" onSubmit={handleSaveSettings}>
-                  <label className="block">
-                    <span className="mb-1 block text-sm text-slate-300">Nightscout URL</span>
-                    <input
-                      className="w-full rounded-xl border border-white/15 bg-slate-950/60 px-3 py-2 text-sm text-white outline-none focus:border-slate-300"
-                      type="url"
-                      placeholder="https://deine-instanz.example"
-                      value={draftConfig.url}
-                      onChange={(event) =>
-                        setDraftConfig((prev) => ({
-                          ...prev,
-                          url: event.target.value
-                        }))
-                      }
-                      required
-                    />
-                  </label>
-
-                  <label className="block">
-                    <span className="mb-1 block text-sm text-slate-300">Nightscout Token</span>
-                    <input
-                      className="w-full rounded-xl border border-white/15 bg-slate-950/60 px-3 py-2 text-sm text-white outline-none focus:border-slate-300"
-                      type="password"
-                      placeholder="dein-read-token"
-                      value={draftConfig.token}
-                      onChange={(event) =>
-                        setDraftConfig((prev) => ({
-                          ...prev,
-                          token: event.target.value
-                        }))
-                      }
-                      required
-                    />
-                  </label>
-
-                  <button
-                    type="submit"
-                    disabled={settingsSaving}
-                    className="rounded-xl bg-glucose-inrange px-4 py-2 font-semibold text-slate-950 transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
-                  >
-                    {settingsSaving ? 'Speichern...' : 'Einstellungen speichern'}
-                  </button>
-                </form>
-              ) : null}
-            </section>
-          </>
-        ) : null}
-
         {settingsError ? (
           <section className="rounded-2xl border border-rose-300/40 bg-rose-500/10 p-6 text-rose-100 shadow-glass">
             <p className="font-semibold">Hinweis</p>
@@ -389,32 +300,67 @@ export default function App() {
 
         {!isLoading && !error && latest ? (
           <>
-            <section className="grid gap-4 md:grid-cols-3">
-              <article className="rounded-2xl border border-white/15 bg-slate-900/65 p-6 shadow-glass">
-                <p className="text-sm text-slate-300">Aktueller Wert</p>
-                <p className="mt-2 text-5xl font-semibold">
-                  {latest.value}
-                  <span className="ml-2 text-base font-medium text-slate-300">mg/dL</span>
-                </p>
-                <p className={`mt-3 text-sm font-semibold ${range.color}`}>{range.label}</p>
-              </article>
+            <>
+              <section className="rounded-2xl border border-white/15 bg-slate-900/65 p-3 shadow-glass sm:hidden">
+                <div className="space-y-2.5">
+                  <article className="rounded-xl border border-white/10 bg-slate-950/35 px-3 py-2">
+                    <p className="text-[11px] text-slate-400">Aktueller Wert</p>
+                    <div className="mt-0.5 flex items-end justify-between gap-3">
+                      <p className="text-3xl font-semibold leading-none">
+                        {latest.value}
+                        <span className="ml-1.5 text-sm font-medium text-slate-300">mg/dL</span>
+                      </p>
+                      <p className={`text-xs font-semibold ${range.color}`}>{range.label}</p>
+                    </div>
+                  </article>
 
-              <article className="rounded-2xl border border-white/15 bg-slate-900/65 p-6 shadow-glass">
-                <p className="text-sm text-slate-300">Trend</p>
-                <p className="mt-2 text-5xl font-semibold">{trend.arrow}</p>
-                <p className="mt-3 text-sm text-slate-200">{trend.label}</p>
-              </article>
+                  <article className="rounded-xl border border-white/10 bg-slate-950/35 px-3 py-2">
+                    <p className="text-[11px] text-slate-400">Trend</p>
+                    <div className="mt-0.5 flex items-end justify-between gap-3">
+                      <p className="text-3xl font-semibold leading-none">{trend.arrow}</p>
+                      <p className="text-xs text-slate-200">{trend.label}</p>
+                    </div>
+                  </article>
 
-              <article className="rounded-2xl border border-white/15 bg-slate-900/65 p-6 shadow-glass">
-                <p className="text-sm text-slate-300">Delta zum letzten Wert</p>
-                <p className="mt-2 text-5xl font-semibold">
-                  {delta === null ? '–' : `${delta > 0 ? '+' : ''}${delta}`}
-                </p>
-                <p className="mt-3 text-sm text-slate-300">
-                  Zuletzt aktualisiert: {lastUpdate ? formatDate(lastUpdate) : '–'}
-                </p>
-              </article>
-            </section>
+                  <article className="rounded-xl border border-white/10 bg-slate-950/35 px-3 py-2">
+                    <p className="text-[11px] text-slate-400">Delta</p>
+                    <div className="mt-0.5 flex items-end justify-between gap-3">
+                      <p className="text-3xl font-semibold leading-none">
+                        {delta === null ? '–' : `${delta > 0 ? '+' : ''}${delta}`}
+                      </p>
+                      <p className="text-xs text-slate-300">{lastUpdate ? formatDate(lastUpdate) : '–'}</p>
+                    </div>
+                  </article>
+                </div>
+              </section>
+
+              <section className="hidden gap-4 sm:grid md:grid-cols-3">
+                <article className="rounded-2xl border border-white/15 bg-slate-900/65 p-6 shadow-glass">
+                  <p className="text-sm text-slate-300">Aktueller Wert</p>
+                  <p className="mt-2 text-5xl font-semibold">
+                    {latest.value}
+                    <span className="ml-2 text-base font-medium text-slate-300">mg/dL</span>
+                  </p>
+                  <p className={`mt-3 text-sm font-semibold ${range.color}`}>{range.label}</p>
+                </article>
+
+                <article className="rounded-2xl border border-white/15 bg-slate-900/65 p-6 shadow-glass">
+                  <p className="text-sm text-slate-300">Trend</p>
+                  <p className="mt-2 text-5xl font-semibold">{trend.arrow}</p>
+                  <p className="mt-3 text-sm text-slate-200">{trend.label}</p>
+                </article>
+
+                <article className="rounded-2xl border border-white/15 bg-slate-900/65 p-6 shadow-glass">
+                  <p className="text-sm text-slate-300">Delta zum letzten Wert</p>
+                  <p className="mt-2 text-5xl font-semibold">
+                    {delta === null ? '–' : `${delta > 0 ? '+' : ''}${delta}`}
+                  </p>
+                  <p className="mt-3 text-sm text-slate-300">
+                    Zuletzt aktualisiert: {lastUpdate ? formatDate(lastUpdate) : '–'}
+                  </p>
+                </article>
+              </section>
+            </>
 
             <GlucoseChart points={entries} />
 
@@ -439,6 +385,88 @@ export default function App() {
               </div>
             </section>
           </>
+        ) : null}
+
+        {hasFirebaseConfig && user ? (
+          <section className="rounded-2xl border border-white/10 bg-slate-950/35 p-4 shadow-glass">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <p className="text-xs text-slate-400">
+                Konto: <span className="font-medium text-slate-300">{user.email}</span>
+              </p>
+              <button
+                type="button"
+                onClick={handleSignOut}
+                className="rounded-lg border border-white/15 px-2.5 py-1 text-xs text-slate-300 transition hover:bg-white/5"
+              >
+                Abmelden
+              </button>
+            </div>
+
+            <div className="mt-3 rounded-xl border border-white/10 bg-slate-900/40 p-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h2 className="text-sm font-medium text-slate-200">Nightscout Einstellungen</h2>
+                <button
+                  type="button"
+                  onClick={() => setSettingsExpanded((prev) => !prev)}
+                  className="rounded-lg border border-white/15 px-2.5 py-1 text-xs text-slate-300 transition hover:bg-white/5"
+                >
+                  {settingsExpanded ? 'Ausblenden' : 'Anzeigen'}
+                </button>
+              </div>
+
+              {settingsLoading ? <p className="mt-2 text-xs text-slate-400">Einstellungen werden geladen...</p> : null}
+
+              {!settingsExpanded && hasNightscoutConfig ? (
+                <p className="mt-2 text-xs text-slate-400">Nightscout-Zugang ist gespeichert.</p>
+              ) : null}
+
+              {settingsExpanded ? (
+                <form className="mt-3 space-y-2.5" onSubmit={handleSaveSettings}>
+                  <label className="block">
+                    <span className="mb-1 block text-xs text-slate-400">Nightscout URL</span>
+                    <input
+                      className="w-full rounded-lg border border-white/10 bg-slate-950/60 px-3 py-2 text-sm text-white outline-none focus:border-slate-400"
+                      type="url"
+                      placeholder="https://deine-instanz.example"
+                      value={draftConfig.url}
+                      onChange={(event) =>
+                        setDraftConfig((prev) => ({
+                          ...prev,
+                          url: event.target.value
+                        }))
+                      }
+                      required
+                    />
+                  </label>
+
+                  <label className="block">
+                    <span className="mb-1 block text-xs text-slate-400">Nightscout Token</span>
+                    <input
+                      className="w-full rounded-lg border border-white/10 bg-slate-950/60 px-3 py-2 text-sm text-white outline-none focus:border-slate-400"
+                      type="password"
+                      placeholder="dein-read-token"
+                      value={draftConfig.token}
+                      onChange={(event) =>
+                        setDraftConfig((prev) => ({
+                          ...prev,
+                          token: event.target.value
+                        }))
+                      }
+                      required
+                    />
+                  </label>
+
+                  <button
+                    type="submit"
+                    disabled={settingsSaving}
+                    className="rounded-lg bg-glucose-inrange px-3 py-1.5 text-sm font-semibold text-slate-950 transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    {settingsSaving ? 'Speichern...' : 'Einstellungen speichern'}
+                  </button>
+                </form>
+              ) : null}
+            </div>
+          </section>
         ) : null}
       </div>
       <Toaster
