@@ -35,27 +35,28 @@ export function usePwaUpdate() {
         updateServiceWorker(true)
       }
 
-      toast(
-        <div className="block rounded-2xl border border-white/15 bg-slate-950/55 p-4 text-slate-100 shadow-glass backdrop-blur">
-          <div className="mb-1 block text-sm font-semibold text-white">Update verfügbar</div>
-          <div className="mb-3 block text-sm text-slate-300">
-            Eine neue Glubloo-Version ist bereit.
+      toast.custom(
+        () => (
+          <div className="block rounded-2xl border border-white/15 bg-slate-950/55 p-4 text-slate-100 shadow-glass backdrop-blur">
+            <div className="mb-1 block text-sm font-semibold text-white">Update verfügbar</div>
+            <div className="mb-3 block text-sm text-slate-300">
+              Eine neue Glubloo-Version ist bereit.
+            </div>
+            <button
+              type="button"
+              onClick={(event) => {
+                event.preventDefault()
+                event.stopPropagation()
+                handleUpdate()
+              }}
+              className="inline-flex min-h-[44px] min-w-[44px] touch-manipulation items-center gap-2 rounded-xl bg-glucose-inrange px-4 py-2 font-semibold text-slate-950 transition hover:brightness-110"
+            >
+              <RefreshCwIcon size={16} /> Aktualisieren
+            </button>
           </div>
-          <button
-            type="button"
-            onClick={(event) => {
-              event.preventDefault()
-              event.stopPropagation()
-              handleUpdate()
-            }}
-            className="inline-flex min-h-[44px] min-w-[44px] touch-manipulation items-center gap-2 rounded-xl bg-glucose-inrange px-4 py-2 font-semibold text-slate-950 transition hover:brightness-110"
-          >
-            <RefreshCwIcon size={16} /> Aktualisieren
-          </button>
-        </div>,
+        ),
         {
           duration: Number.POSITIVE_INFINITY,
-          className: 'update-toast',
           dismissible: false,
           id: 'update-toast'
         }
