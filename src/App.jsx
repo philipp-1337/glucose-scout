@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth'
 import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore'
+import { Toaster } from 'sonner'
 import GlucoseChart from './components/GlucoseChart'
 import { auth, db, googleProvider, hasFirebaseConfig } from './firebase'
+import { usePwaPrompt } from './hooks/usePwaPrompt'
+import { usePwaUpdate } from './hooks/usePwaUpdate'
 
 const ENTRY_LIMIT = Number(import.meta.env.VITE_ENTRY_LIMIT ?? 72)
 
@@ -33,6 +36,9 @@ function formatDate(date) {
 }
 
 export default function App() {
+  usePwaPrompt()
+  usePwaUpdate()
+
   const [entries, setEntries] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
@@ -435,6 +441,19 @@ export default function App() {
           </>
         ) : null}
       </div>
+      <Toaster
+        richColors
+        position="top-right"
+        mobileOffset={20}
+        offset={20}
+        closeButton={false}
+        expand
+        toastOptions={{
+          style: {
+            pointerEvents: 'auto'
+          }
+        }}
+      />
     </main>
   )
 }

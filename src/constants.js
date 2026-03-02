@@ -1,0 +1,3 @@
+export const SW_UPDATE_CHECK_INTERVAL = 60_000
+
+export const PWA_INSTALL_PROMPT_DELAY = 5_000
