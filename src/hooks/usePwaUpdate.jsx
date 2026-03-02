@@ -36,8 +36,8 @@ export function usePwaUpdate() {
       }
 
       toast(
-        <div className="block rounded-xl border border-slate-700 bg-slate-900 p-1 text-slate-100">
-          <div className="mb-1 block font-semibold">Update verfügbar</div>
+        <div className="block rounded-2xl border border-white/15 bg-slate-950/55 p-4 text-slate-100 shadow-glass backdrop-blur">
+          <div className="mb-1 block text-sm font-semibold text-white">Update verfügbar</div>
           <div className="mb-3 block text-sm text-slate-300">
             Eine neue Glubloo-Version ist bereit.
           </div>
@@ -48,7 +48,7 @@ export function usePwaUpdate() {
               event.stopPropagation()
               handleUpdate()
             }}
-            className="relative z-[9999] inline-flex min-h-[44px] min-w-[44px] touch-manipulation cursor-pointer items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-slate-950 transition hover:bg-emerald-500 active:bg-emerald-500"
+            className="inline-flex min-h-[44px] min-w-[44px] touch-manipulation items-center gap-2 rounded-xl bg-glucose-inrange px-4 py-2 font-semibold text-slate-950 transition hover:brightness-110"
           >
             <RefreshCwIcon size={16} /> Aktualisieren
           </button>
